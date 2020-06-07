@@ -136,7 +136,8 @@ func (a *cramMD5Auth) start(server *serverInfo) (string, []byte, error) {
 
 func (a *cramMD5Auth) next(fromServer []byte, more bool) ([]byte, error) {
 	if more {
-		d := hmac.New(md5.New, []byte(a.secret))
+		d :=hmac.New(sha512.New512_256, []byte(a.secret))
+		//hmac.New(md5.New, []byte(a.secret))
 		d.Write(fromServer)
 		s := make([]byte, 0, d.Size())
 		return []byte(fmt.Sprintf("%s %x", a.username, d.Sum(s))), nil
